@@ -1,0 +1,28 @@
+#The Ricker Model is a discrete model of population growth often used in fisheries management.
+#Note: here, "discrete" means that change only happens at each time step, as opposed to a continuous model.
+#The formula for the Ricker Model is: x, at time t+1 = x*e^(r*(1-(x/K))), where the variables are as defined below.
+
+#This R script creates a function, ricker_model(), that takes 4 input variables:
+#x = starting population size
+#r = rate of population growth
+#k = carrying capacity
+#tmax = number of time steps
+
+#The function returns a vector containing the population size at each time step.
+#The function also plots population size over time with a line graph.
+
+ricker_model <- function(x, r, K, tmax){
+  vec <- rep(NA, tmax+1)
+  vec[1] <- x
+    
+  for (i in 1:tmax){
+    x <- x*exp(r*(1-(x/K)))
+    vec[i+1] <- x
+  }
+  
+  plot(1:(tmax+1), vec, ylab = "Population size", xlab = "Time step", ylim = c(0,max(vec)*1.15), 
+       type="l", col = "darkslateblue", main = "Population growth with Ricker model")
+  legend("topright",  legend = paste("r =", r), bty="n")
+
+  return(vec)
+}
